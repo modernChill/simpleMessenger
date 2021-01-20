@@ -17,6 +17,18 @@ public class ChatClient {
         this.ip = ip;
         this.port = port;
         setUpNetworking();
+        start();
+    }
+    public void start() {
+        Thread readerThread = new Thread(new IncomingReader());
+        readerThread.start();
+    }
+
+    public void sendMessage(String message) {
+        try {
+            writer.println(message);
+            writer.flush();
+        } catch (Exception ex) {ex.printStackTrace();}
     }
 
     private void setUpNetworking() {
@@ -30,9 +42,9 @@ public class ChatClient {
     }
 
     public class IncomingReader implements Runnable {
+        String message;
         @Override
         public void run() {
-            String message;
             try {
                 while ((message = reader.readLine()) != null) {
                     System.out.println("read " + message);
