@@ -57,11 +57,9 @@ public class ChatServer {
         public void run() {
             String message;
             try {
-                message = reader.readLine();
-                while (message != null) {
+                while ((message = reader.readLine() )!= null) {
                     System.out.println("read " + message);
                     tellEveryone(message);
-                    message = reader.readLine();
                 }
             } catch (Exception ex) {ex.printStackTrace();}
         }
