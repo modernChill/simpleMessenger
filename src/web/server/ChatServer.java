@@ -13,7 +13,7 @@ public class ChatServer {
         new ChatServer().go();
     }
 
-    public void go() {
+    private void go() {
         clientOutStreams = new ArrayList();
         try {
             ServerSocket serverSocket = new ServerSocket(port);
