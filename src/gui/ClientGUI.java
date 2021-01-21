@@ -8,17 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class ClientGUI {
+public class ClientGUI extends ChatClient{
     JTextArea inMessage;
     JTextField outMessage;
 
-    private ChatClient client;
 
-    private int windowHeight = 500;
-    private int windowWidth = 400;
+    private int windowHeight = 400;
+    private int windowWidth = 600;
 
-    public ClientGUI(ChatClient client) {
-        this.client = client;
+
+    public ClientGUI(String ip, int port) {
+        super(ip, port);
     }
 
     public void load() {
@@ -46,19 +46,34 @@ public class ClientGUI {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
-        frame.setSize(windowHeight, windowWidth);
+        frame.setSize(windowWidth, windowHeight);
         frame.setVisible(true);
 
     }
+    @Override
+    public void start() {
+        Thread readerThread = new Thread(new ListenerMessage());
+        readerThread.start();
+    }
 
-
+    public class ListenerMessage extends IncomingReader{
+        String message;
+        @Override
+        public void run() {
+            try {
+                while ((message = reader.readLine()) != null) {
+                    inMessage.append(message + "\n");
+                }
+            } catch (Exception ex) {ex.printStackTrace();}
+        }
+    }
 
 
     public class SendButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             try {
-                client.sendMessage(outMessage.getText());
+                sendMessage(outMessage.getText());
 
             } catch (Exception ex) {ex.printStackTrace();}
             outMessage.setText("");

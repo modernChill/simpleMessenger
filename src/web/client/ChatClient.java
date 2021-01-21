@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ChatClient {
-    private BufferedReader reader;
-    private PrintWriter writer;
+    protected BufferedReader reader;
+    protected PrintWriter writer;
     private Socket socket;
     private String ip;
     private int port;
@@ -19,7 +19,7 @@ public class ChatClient {
         setUpNetworking();
         start();
     }
-    public void start() {
+    protected void start() {
         Thread readerThread = new Thread(new IncomingReader());
         readerThread.start();
     }

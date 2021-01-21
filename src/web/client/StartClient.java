@@ -12,8 +12,8 @@ public class StartClient {
         String ip = args[0];
         int port = Integer.parseInt(args[1]);
 
-        ChatClient client = new ChatClient(ip, port);
-        ClientGUI gui = new ClientGUI(client);
+
+        ClientGUI gui = new ClientGUI(ip, port);
         gui.load();
     }
 }
